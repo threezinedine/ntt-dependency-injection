@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# bat file
+*.bat
+
+.vscode
+build

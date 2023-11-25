@@ -1,0 +1,1 @@
+#include <NTTDependencyInjection/InjectionBase.hpp>
