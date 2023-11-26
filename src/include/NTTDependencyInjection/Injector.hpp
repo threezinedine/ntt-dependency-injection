@@ -9,13 +9,13 @@ namespace ntt::injector
 {
     namespace internal
     {
-        extern std::unordered_map<size_t, std::shared_ptr<DependencyBase>> _mInstanceMap;
+        std::unordered_map<size_t, std::shared_ptr<DependencyBase>> &_GetMap();
     } // namespace internal
 
     template <typename Type, typename Ins, typename... Args>
     void Register(Args &&...args)
     {
-        internal::_mInstanceMap[typeid(Type).hash_code()] = std::make_shared<Ins>(
+        internal::_GetMap()[typeid(Type).hash_code()] = std::make_shared<Ins>(
             std::forward<Args>(args)...);
     }
 
@@ -23,9 +23,9 @@ namespace ntt::injector
     std::shared_ptr<Type> Get()
     {
         size_t key = typeid(Type).hash_code();
-        if (internal::_mInstanceMap.find(key) != internal::_mInstanceMap.end())
+        if (internal::_GetMap().find(key) != internal::_GetMap().end())
         {
-            return std::dynamic_pointer_cast<Type>(internal::_mInstanceMap[key]);
+            return std::dynamic_pointer_cast<Type>(internal::_GetMap()[key]);
         }
         else
         {
